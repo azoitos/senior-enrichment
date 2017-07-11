@@ -1,0 +1,9 @@
+.App {
+    text-align: center;
+    display: inline;
+}
+
+.home-students .row {
+    margin-left: 20px;
+    margin-right: 20px;
+}

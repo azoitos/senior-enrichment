@@ -3,6 +3,8 @@ var Sequelize = require('sequelize')
 var db = require('../index.js')
 
 
-module.exports = db.define('user', {
+var User = db.define('user', {
   name: Sequelize.STRING,
 })
+
+module.exports = User;

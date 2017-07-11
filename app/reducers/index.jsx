@@ -1,11 +1,20 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
+import {getCampus, GOT_CAMPUSES_FROM_SERVER} from '../actions/actions';
 
-const initialState = {}
+const initialState = {
+  campus: [],
+  students: []
+}
 
 const rootReducer = function(state = initialState, action) {
-  switch(action.type) {
+  let newState = Object.assign({}, state);
+  switch (action.type) {
+    case GOT_CAMPUSES_FROM_SERVER:
+      newState.campus = action.campus;
+      break;
     default: return state
   }
+  return newState;
 };
 
 export default rootReducer
