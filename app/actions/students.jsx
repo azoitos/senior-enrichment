@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const GOT_STUDENTS_FROM_SERVER = 'GOT_STUDENTS_FROM_SERVER';
 export const GOT_SINGLE_STUDENT_FROM_SERVER = 'GOT_SINGLE_STUDENT_FROM_SERVER';
+export const REMOVE_STUDENT = "REMOVE_STUDENT";
 
 export function getStudents (students) {
     return {
@@ -14,6 +15,12 @@ export function getStudent(student){
     return {
         type: GOT_SINGLE_STUDENT_FROM_SERVER,
         student
+    }
+}
+
+export function removeStudent(){
+    return {
+        type: REMOVE_STUDENT,
     }
 }
 
@@ -40,5 +47,13 @@ export function fetchStudent(id) {
                 dispatch(action);
             })
             .catch(console.error);
+    }
+}
+
+export function deleteStudent(id){
+    return function thunk(dispatch){
+        dispatch(removeStudent());
+        axios.delete(`/api/students/${id}`)
+        .error(console.err);
     }
 }

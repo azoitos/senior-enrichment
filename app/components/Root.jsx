@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import Home from './Home';
+import Campus from './Campus';
 import Students from './Students';
 import SingleCampus from './SingleCampus';
 import SingleStudent from './SingleStudent';
 import store from '../store';
 import NotFound from './NotFound';
-import {fetchStudents} from '../actions/students';
-import {fetchCampuses} from '../actions/campuses';
+import { fetchStudents } from '../actions/students';
+import { fetchCampuses } from '../actions/campuses';
 
 
 export default class Root extends Component {
 
-    componentDidMount(){
+    componentDidMount() {
         store.dispatch(fetchStudents());
         store.dispatch(fetchCampuses());
     }
@@ -22,10 +22,10 @@ export default class Root extends Component {
         return (
             <Router>
                 <div className="App">
-                    <div className="Home">
+                    <div className="Campus">
                         <h3>CollegeBored.edm</h3>
                     </div>
-                    <div className="container home-students">
+                    <div className="container Campus-students">
                         <div className="row">
                             <a className="btn-flat btn-xs-6 .col-md-4" href="/campus">HOME</a>
                             <a className="btn-flat btn-xs-6 .col-md-4" href="/students">STUDENTS</a>
@@ -36,7 +36,7 @@ export default class Root extends Component {
                         <Switch>
                             <Route
                                 exact path="/campus"
-                                component={Home}
+                                component={Campus}
                             />
                             <Route
                                 path="/campus/:id"
@@ -52,7 +52,7 @@ export default class Root extends Component {
                             />
                             <Route
                                 exact path="/"
-                                component={Home}
+                                component={Campus}
                             />
                             <Route
                                 component={NotFound}

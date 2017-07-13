@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export const GOT_CAMPUSES_FROM_SERVER = 'GOT_CAMPUSES_FROM_SERVER';
 export const GOT_CAMPUS_FROM_SERVER = 'GOT_CAMPUS_FROM_SERVER';
+export const ADD_CAMPUS = 'ADD_CAMPUS'
 
 export function getCampuses (campuses) {
     return {
@@ -18,6 +19,12 @@ export function getCampus (campus) {
     }
 }
 
+export function createCampus(campus) {
+    return {
+        type: ADD_CAMPUS,
+        campus
+    }
+}
 
 export function fetchCampuses() {
     return function thunk(dispatch) {
@@ -43,4 +50,13 @@ export function fetchCampus(id) {
             })
             .catch(console.error);
     }
+}
+
+export function createNewCampus(campus){
+    return function thunk(dispatch){
+        axios.post('api/campus', campus)
+            .then(res => dispatch(createCampus(res.data)))
+            .catch(console.error);
+    }
+
 }
