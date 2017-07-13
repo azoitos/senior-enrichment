@@ -1,26 +1,33 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Home from './Home';
 import Students from './Students';
+import SingleCampus from './SingleCampus';
+import SingleStudent from './SingleStudent';
+import store from '../store';
+import NotFound from './NotFound';
+import {fetchStudents} from '../actions/students';
+import {fetchCampuses} from '../actions/campuses';
 
 
-class Main extends Component {
+export default class Root extends Component {
 
-
-    componentDidMount() {
-
+    componentDidMount(){
+        store.dispatch(fetchStudents());
+        store.dispatch(fetchCampuses());
     }
+
     render() {
         return (
             <Router>
                 <div className="App">
                     <div className="Home">
-                        <h3>Welcome</h3>
+                        <h3>CollegeBored.edm</h3>
                     </div>
                     <div className="container home-students">
                         <div className="row">
-                            <a className="btn-flat btn-xs-6 .col-md-4" href="/home">HOME</a>
+                            <a className="btn-flat btn-xs-6 .col-md-4" href="/campus">HOME</a>
                             <a className="btn-flat btn-xs-6 .col-md-4" href="/students">STUDENTS</a>
                         </div>
                     </div>
@@ -28,16 +35,27 @@ class Main extends Component {
                     <div className="App-content container-fluid">
                         <Switch>
                             <Route
-                                exact path="/home"
-                                render={() =>
-                                    <Home />
-                                }
+                                exact path="/campus"
+                                component={Home}
                             />
                             <Route
-                                path="/students"
-                                render={() =>
-                                    <Students />
-                                }
+                                path="/campus/:id"
+                                component={SingleCampus}
+                            />
+                            <Route
+                                exact path="/students"
+                                component={Students}
+                            />
+                            <Route
+                                path="/students/:id"
+                                component={SingleStudent}
+                            />
+                            <Route
+                                exact path="/"
+                                component={Home}
+                            />
+                            <Route
+                                component={NotFound}
                             />
                         </Switch>
                     </div>
