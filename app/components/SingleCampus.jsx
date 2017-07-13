@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import { fetchCampus } from '../actions/campuses';
+import { fetchCampus } from '../reducers/campuses';
 
 export class SingleCampus extends Component {
 
@@ -40,9 +40,9 @@ export class SingleCampus extends Component {
 
 function mapStateToProps(state) {
     return {
-        campus: state.campus,
-        campuses: state.campuses,
-        students: state.students
+        campus: state.campuses.campus,
+        campuses: state.campuses.campuses,
+        students: state.students.students
     }
 }
 

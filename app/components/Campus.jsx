@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import { createNewCampus } from '../actions/campuses';
+import { createNewCampus, destroyCampus } from '../reducers/campuses';
 
 export class Campus extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
     }
     render() {
+        const deleteCampus = this.props.deleteCampus;
         const campuses = this.props.campuses;
         return (
             <div className="row">
@@ -21,11 +22,17 @@ export class Campus extends Component {
                         return (
                             <div className="col-xs-4" key={campus.id}>
                                 <Link to={campusId} className="thumbnail" >
-                                    <img src={campus.img} />
                                     <div className="caption">
                                         <span>{campus.name}</span>
                                     </div>
                                 </Link>
+                                <img src={campus.img} />
+                                <button
+                                    onClick={() => deleteCampus(campus.id)}
+                                    type="submit"
+                                    className="btn btn-warning btn-xs">
+                                    <span className="glyphicon glyphicon-remove" />X
+                                </button>
                             </div>
                         )
                     })
@@ -63,7 +70,7 @@ export class Campus extends Component {
         );
     }
 
-    onSubmit(event){
+    onSubmit(event) {
         const addCampus = this.props.addCampus;
         event.preventDefault();
         const newCampus = {
@@ -77,15 +84,19 @@ export class Campus extends Component {
 
 function mapStateToProps(state) {
     return {
-        campuses: state.campuses,
-        students: state.students
+        campuses: state.campuses.campuses,
+        students: state.students.students,
+        campus: state.campuses.campus
     }
 }
 
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch) {
     return {
         addCampus: (campus) => {
             dispatch(createNewCampus(campus));
+        },
+        deleteCampus: (id) => {
+            dispatch(destroyCampus(id));
         }
     }
 }

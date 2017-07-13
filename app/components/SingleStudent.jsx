@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import { fetchStudent } from '../actions/students';
+import { fetchStudent } from '../reducers/students';
 
 export class SingleStudent extends Component {
 
@@ -38,9 +38,9 @@ export class SingleStudent extends Component {
 
 function mapStateToProps(state) {
     return {
-        student: state.student,
-        campuses: state.campuses,
-        students: state.students
+        student: state.students.student,
+        campuses: state.campuses.campuses,
+        students: state.students.students
     }
 }
 

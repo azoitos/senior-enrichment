@@ -1,29 +1,29 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Campus from './Campus';
 import Students from './Students';
 import SingleCampus from './SingleCampus';
 import SingleStudent from './SingleStudent';
 import store from '../store';
 import NotFound from './NotFound';
-import { fetchStudents } from '../actions/students';
-import { fetchCampuses } from '../actions/campuses';
+import { connect } from 'react-redux';
+import { fetchStudents } from '../reducers/students';
+import { fetchCampuses } from '../reducers/campuses';
 
 
-export default class Root extends Component {
+export class Root extends Component {
 
     componentDidMount() {
-        store.dispatch(fetchStudents());
-        store.dispatch(fetchCampuses());
+        this.props.getInitialData();
     }
 
     render() {
         return (
             <Router>
                 <div className="App">
+
                     <div className="Campus">
-                        <h3>CollegeBored.edm</h3>
+                        <h3>大学と学生</h3>
                     </div>
                     <div className="container Campus-students">
                         <div className="row">
@@ -59,8 +59,20 @@ export default class Root extends Component {
                             />
                         </Switch>
                     </div>
+
                 </div>
             </Router>
         )
     }
 }
+
+const mapStateToProps =  null;
+
+const mapDispatchToProps = (dispatch) => ({
+    getInitialData: () => {
+        dispatch(fetchCampuses());
+        dispatch(fetchStudents());
+    }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Root);
