@@ -21,22 +21,22 @@ router.post('/', (req, res) => {
     console.log('campus post');
     console.log(req.body);
     Campus.create(req.body)
-    .then(campus => res.send({message: 'Campus added', campus}))
+    .then(campus => res.send(campus))
     .catch((e) => {
         console.log(e);
         res.sendStatus(505)
     });
 })
 
-router.put('/:id', (req, res) => {
-    Campus.update(req.body, {
+router.put('/:id', (req, res, next) => {
+    Campus.findOne({
         where: {
             id: req.params.id
-        },
-        returning: true
-    }).spread((row, updatedRow) => {
-        res.send({message: 'Campus information updated', campus: updatedRow[0]})
-    }) 
+        }
+    })
+    .then(student => student.update(req.body))
+    .then(result => res.json(result))
+    .catch(next);
 })
 
 router.delete('/:id', (req, res) => {

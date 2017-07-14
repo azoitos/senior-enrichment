@@ -10,6 +10,7 @@ export const INITIALIZE_CAMPUSES = 'INITIALIZE_CAMPUSES';
 export const GOT_CAMPUS_FROM_SERVER = 'GOT_CAMPUS_FROM_SERVER';
 export const ADD_CAMPUS = 'ADD_CAMPUS';
 export const REMOVE_CAMPUS = 'REMOVE_CAMPUS';
+export const UPDATE_CAMPUS = 'UPDATE_CAMPUS';
 
 
 //----------------ACTION CREATORS---------------//
@@ -41,30 +42,46 @@ export function removeCampus(id) {
     }
 }
 
+export function update(campus) {
+    return {
+        type: UPDATE_CAMPUS,
+        campus
+    }
+}
+
 //-------------REDUCER------------------//
-export default function reducer(state = initialState, action) {
-    let newState = Object.assign({}, state);
+export default function reducer(campuses = [], action) {
+    // let newState = Object.assign({}, state);
     switch (action.type) {
 
         case INITIALIZE_CAMPUSES:
-            newState.campuses = action.campuses;
-            break;
+            // newState.campuses = action.campuses;
+            // break;
+            return action.campuses;
 
         case GOT_CAMPUS_FROM_SERVER:
-            newState.campus = action.campus;
-            break;
+            // newState.campus = action.campus;
+            // break;
+            return [action.campus, ...campuses];
 
         case ADD_CAMPUS:
-            newState.campus = action.campus;
-            break;
+            // newState.campus = action.campus;
+            // break;
+            return [...campuses, action.campus]
+
+        case UPDATE_CAMPUS:
+            return campuses.map(campus => (
+                campus.id === action.campus.id ? action.campus : campus
+            ))
 
         case REMOVE_CAMPUS:
-            newState.campuses = newState.campuses.filter(campus => campus.id !== action.id);
-            break;
+            // newState.campuses = newState.campuses.filter(campus => campus.id !== action.id);
+            // break;
+            return campuses.filter(campus => campus.id !== action.id);
 
-        default: return state
+        default: return campuses
     }
-    return newState;
+    // return newState;
 }
 
 
@@ -91,16 +108,24 @@ export function fetchCampus(id) {
 
 export function createNewCampus(campus) {
     return function thunk(dispatch) {
-        axios.post('api/campus', campus)
+        axios.post('/api/campus', campus)
             .then(res => dispatch(addCampus(res.data)))
             .catch(console.error);
+    }
+}
+
+export function campusUpdate (id, campus) {
+    return function thunk(dispatch) {
+        axios.put(`/api/campus/${id}`, campus)
+        .then(res => dispatch(update(res.data)))
+        .catch(console.error);
     }
 }
 
 export function destroyCampus(id) {
     return function thunk(dispatch) {
         dispatch(removeCampus(id));
-        axios.delete(`api/campus/${id}`)
+        axios.delete(`/api/campus/${id}`)
             .catch(console.error)
     }
 }

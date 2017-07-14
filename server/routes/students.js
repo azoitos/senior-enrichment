@@ -20,19 +20,19 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     
     Student.create(req.body)
-    .then(student => res.send({message: 'Student added', student}))
+    .then(student => res.send(student))
     .catch(() => res.sendStatus(505));
 })
 
-router.put('/:id', (req, res) => {
-    Student.update(req.body, {
+router.put('/:id', (req, res, next) => {
+    Student.findOne({
         where: {
             id: req.params.id
-        },
-        returning: true
-    }).spread((row, updatedRow) => {
-        res.send({message: 'Student information updated', Student: updatedRow[0]})
-    }) 
+        }
+    })
+    .then(student => student.update(req.body))
+    .then(result => res.json(result))
+    .catch(next);
 })
 
 router.delete('/:id', (req, res) => {

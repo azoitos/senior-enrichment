@@ -23,7 +23,7 @@ export class Root extends Component {
                 <div className="App">
 
                     <div className="Campus">
-                        <h3>大学と学生</h3>
+                        <h3>ハミルトンのジャバスクリプトアカデミー</h3>
                     </div>
                     <div className="container Campus-students">
                         <div className="row">

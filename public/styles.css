@@ -1,0 +1,35 @@
+body {
+    margin: 25px;
+}
+
+select {
+    display: initial;
+    width: 10%;
+}
+
+img {
+    width: 25%;
+}
+
+ .s4 > img {
+    width: 100%;
+} 
+
+.remove-button {
+    display: block;
+    background-color: red;
+}
+
+.update-campus {
+    padding-top: 60px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: blue;
+}
+
+.list-group-item {
+    color: black;
+}
+
+.render-student {
+    margin-top: 5%;
+}
